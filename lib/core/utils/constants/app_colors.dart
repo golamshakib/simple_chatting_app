@@ -26,7 +26,7 @@ class AppColors {
   static const Color textYellow = Color(0xffFFAB4C);
   static const Color textGrey = Color(0xffA59F92);
   static const Color textWhite = Color(0xFFFFFFFF);
-  static const Color hintText = Color(0xFF93969C);
+  static const Color textBlack = Color(0xFF111111);
 
 
   // Background Colors

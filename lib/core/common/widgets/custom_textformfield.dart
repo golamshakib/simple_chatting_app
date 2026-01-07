@@ -100,7 +100,7 @@ class CustomTextFormField extends StatelessWidget {
             GoogleFonts.inter(
               fontSize: getWidth(15),
               fontWeight: FontWeight.w400,
-              color: AppColors.hintText,
+              color: AppColors.textSecondary,
             ),
         prefixText: prefixText != null ? '$prefixText  ' : null,
         prefixStyle:
