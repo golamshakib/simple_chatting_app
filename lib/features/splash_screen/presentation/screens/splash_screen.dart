@@ -26,23 +26,38 @@ class SplashScreen extends GetView<SplashController> {
         children: [
           // Top logo background
           Positioned(
-            top: 153,
+            top: 160,
             left: 35,
             right: 35,
-            child: Row(
+            child: Column(
               children: [
-                SvgPicture.asset(
-                  ImagePath.appLogo,
-                  height: 90.h,
-                  fit: BoxFit.contain,
+                Row(
+                  children: [
+                    SvgPicture.asset(
+                      ImagePath.appLogo,
+                      height: 80.h,
+                      fit: BoxFit.contain,
+                    ),
+                    // SizedBox(width: getWidth(10)),
+                    Expanded(
+                      child: CustomText(
+                        text: 'Chatting App',
+                        textAlign: TextAlign.center,
+                        fontSize: 22.sp,
+                        fontWeight: FontWeight.w800,
+                        color: AppColors.textPrimary,
+                      ),
+                    ),
+                  ],
                 ),
-                SizedBox(width: getWidth(10)),
-                Expanded(
+                SizedBox(height: getHeight(10)),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: getHeight(16)),
                   child: CustomText(
-                    text: 'Chatting App',
-                    textAlign: TextAlign.center,
-                    fontSize: 22.sp,
-                    fontWeight: FontWeight.w800,
+                    text:
+                        'Instant communication, endless connections. Stay in touch, share moments, and create memories with every message.',
+                    textAlign: TextAlign.start,
+                    fontSize: 15.sp,
                     color: AppColors.textPrimary,
                   ),
                 ),
@@ -66,7 +81,7 @@ class SplashScreen extends GetView<SplashController> {
           Positioned(
             left: 29.w,
             right: 29.w,
-            bottom: 122.h,
+            bottom: 140.h,
             child: SizedBox(
               height: 385.h,
               child: Lottie.asset(
@@ -77,31 +92,40 @@ class SplashScreen extends GetView<SplashController> {
           ),
 
           Positioned(
-            bottom: 50,
+            bottom: 70,
             left: 0,
             right: 0,
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: getHeight(60)),
               child: SlideAction(
-                outerColor: AppColors.primary, // background color
-                innerColor: AppColors.backgroundDark, // slider color
+                outerColor: AppColors.primary,
+                // background color
+                innerColor: AppColors.backgroundDark,
+                // slider color
                 text: 'Swipe to Next',
                 elevation: 2,
                 textStyle: GoogleFonts.montserrat(
-                    fontSize: 16.sp,
-                    color: AppColors.textPrimary,
-                    fontWeight: FontWeight.w600
+                  fontSize: 16.sp,
+                  color: AppColors.textPrimary,
+                  fontWeight: FontWeight.w600,
                 ),
-                sliderButtonIcon: const Icon(Icons.double_arrow_rounded, color: AppColors.textWhite,),
-                submittedIcon: Image.asset(LogoPath.appLogo, height: 30.h, width: 30.w,),
-                onSubmit: () async{
+                sliderButtonIcon: const Icon(
+                  Icons.double_arrow_rounded,
+                  color: AppColors.textWhite,
+                ),
+                submittedIcon: SvgPicture.asset(
+                  LogoPath.appLogo,
+                  height: 30.h,
+                  width: 30.w,
+                ),
+                onSubmit: () async {
                   await Future.delayed(Duration(milliseconds: 500));
                   // Get.offNamed(AppRoute.secondOnboardingScreen);
                   return;
                 },
               ),
             ),
-          )
+          ),
         ],
       ),
     );

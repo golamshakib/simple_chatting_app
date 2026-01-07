@@ -35,7 +35,7 @@ class CustomText extends StatelessWidget {
     return Text(
       text,
       textAlign: textAlign,
-      style: GoogleFonts.inter(
+      style: GoogleFonts.montserrat(
           decoration: decoration,
           decorationThickness: decorationThickness,
           decorationColor: decorationColor ?? const Color(0xff2972FF),
