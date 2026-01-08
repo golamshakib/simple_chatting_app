@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -29,6 +28,7 @@ class SplashScreen extends GetView<SplashController> {
             top: 160,
             left: 35,
             right: 35,
+
             child: Column(
               children: [
                 Row(
@@ -120,7 +120,7 @@ class SplashScreen extends GetView<SplashController> {
                 ),
                 onSubmit: () async {
                   await Future.delayed(Duration(milliseconds: 500));
-                  // Get.offNamed(AppRoute.secondOnboardingScreen);
+                  Get.offNamed(AppRoute.chattingListScreen);
                   return;
                 },
               ),
