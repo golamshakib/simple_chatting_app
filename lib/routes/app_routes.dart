@@ -1,19 +1,16 @@
 import 'package:get/get.dart';
+import 'package:simple_chatting_app/features/chatting_list/presentation/screen/chatting_list.dart';
 
-import '../features/authentication/presentation/screens/login_screen.dart';
-import '../features/authentication/presentation/screens/sign_up_screen.dart';
 import '../features/splash_screen/presentation/screens/splash_screen.dart';
 
 class AppRoute {
   static String init = "/";
-  static String loginScreen = "/loginScreen";
-  static String signUpScreen = "/signUpScreen";
+  static String chattingListScreen = "/chattingListScreen";
 
 
 
   static List<GetPage> routes = [
     GetPage(name: init, page: () => const SplashScreen()),
-    GetPage(name: loginScreen, page: () => const LoginScreen()),
-    GetPage(name: signUpScreen, page:() => const SignUpScreen())
+    GetPage(name: chattingListScreen, page: () => const ChattingListScreen()),
   ];
 }
