@@ -15,7 +15,9 @@ class ChattingListScreen extends StatelessWidget {
         titleSize: getWidth(24),
         centerTitle: false,
       ),
-      body: Center(child: CustomText(text: 'Chatting List Screen')),
+      body: SafeArea(
+        child: Center(child: CustomText(text: 'Chatting List Screen')),
+      ),
     );
   }
 }
