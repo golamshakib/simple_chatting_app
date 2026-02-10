@@ -38,7 +38,7 @@ class ChatListItem extends StatelessWidget {
         textOverflow: TextOverflow.ellipsis,
       ),
       trailing: CustomText(
-        text: formatTimestamp("2026-01-26T10:30:00Z"),
+        text: formatTimestamp("2026-02-08T10:30:00Z"),
         fontSize: getWidth(12),
         fontWeight: FontWeight.w400,
         maxLines: 1,

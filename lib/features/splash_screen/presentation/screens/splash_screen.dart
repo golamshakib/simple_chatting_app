@@ -120,7 +120,7 @@ class SplashScreen extends GetView<SplashController> {
                 ),
                 onSubmit: () async {
                   await Future.delayed(Duration(milliseconds: 500));
-                  Get.offNamed(AppRoute.chattingListScreen);
+                  Get.offNamed(AppRoute.loginScreen);
                   return;
                 },
               ),
