@@ -6,6 +6,7 @@ import 'package:simple_chatting_app/core/common/widgets/custom_text.dart';
 import 'package:simple_chatting_app/core/common/widgets/custom_textformfield.dart';
 import 'package:simple_chatting_app/core/utils/constants/app_colors.dart';
 import 'package:simple_chatting_app/core/utils/constants/app_sizes.dart';
+import 'package:simple_chatting_app/core/utils/validators/app_validator.dart';
 
 import '../../controller/login_controller.dart';
 
@@ -51,18 +52,23 @@ class LoginScreen extends StatelessWidget {
                 fontWeight: FontWeight.w500,
               ),
               SizedBox(height: getHeight(12)),
-              CustomTextFormField(
-                controller: controller.passwordController,
-                obscureText: true,
-                borderRedius: 12,
-                containerColor: Colors.white,
-                containerBorderColor: AppColors.textFormFieldBorder,
-                hintText: 'Enter your password',
-                suffixIcon: GestureDetector(
-                  onTap: () => controller.changeVisible(),
-                  child: Icon(controller.isVisible.value
-                  ? CupertinoIcons.eye_slash
-                  : CupertinoIcons.eye,
+              Obx(
+                () => CustomTextFormField(
+                  controller: controller.passwordController,
+                  obscureText: controller.isVisible.value,
+                  borderRedius: 12,
+                  containerColor: Colors.white,
+                  containerBorderColor: AppColors.textFormFieldBorder,
+                  keyboardType: TextInputType.visiblePassword,
+                  validation: AppValidator.validatePassword,
+                  hintText: 'Enter your password',
+                  suffixIcon: GestureDetector(
+                    onTap: () => controller.changeVisible(),
+                    child: Icon(
+                      controller.isVisible.value
+                          ? CupertinoIcons.eye_slash
+                          : CupertinoIcons.eye,
+                    ),
                   ),
                 ),
               ),
