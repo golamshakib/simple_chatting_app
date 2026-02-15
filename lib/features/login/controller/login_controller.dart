@@ -5,4 +5,8 @@ class LoginController extends GetxController {
 
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final isVisible = true.obs;
+  void changeVisible() {
+    isVisible.value = !isVisible.value;
+  }
 }

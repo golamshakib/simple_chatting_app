@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:simple_chatting_app/core/common/widgets/custom_appbar.dart';
 import 'package:simple_chatting_app/core/common/widgets/custom_text.dart';
@@ -57,6 +58,13 @@ class LoginScreen extends StatelessWidget {
                 containerColor: Colors.white,
                 containerBorderColor: AppColors.textFormFieldBorder,
                 hintText: 'Enter your password',
+                suffixIcon: GestureDetector(
+                  onTap: () => controller.changeVisible(),
+                  child: Icon(controller.isVisible.value
+                  ? CupertinoIcons.eye_slash
+                  : CupertinoIcons.eye,
+                  ),
+                ),
               ),
             ],
           ),
