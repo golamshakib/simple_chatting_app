@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:simple_chatting_app/core/common/widgets/custom_appbar.dart';
+import 'package:simple_chatting_app/core/common/widgets/custom_submit_button.dart';
 import 'package:simple_chatting_app/core/common/widgets/custom_text.dart';
+import 'package:simple_chatting_app/core/common/widgets/custom_text_button.dart';
 import 'package:simple_chatting_app/core/common/widgets/custom_textformfield.dart';
 import 'package:simple_chatting_app/core/utils/constants/app_colors.dart';
 import 'package:simple_chatting_app/core/utils/constants/app_sizes.dart';
@@ -70,6 +72,28 @@ class LoginScreen extends StatelessWidget {
                           : CupertinoIcons.eye,
                     ),
                   ),
+                ),
+              ),
+              SizedBox(height: getHeight(12)),
+              Row(
+                children: [
+                  Spacer(),
+                  CustomTextButton(
+                    onTap: () {},
+                    text: 'Forget Password?',
+                    fontSize: getWidth(16),
+                    fontWeight: FontWeight.w600,
+                  ),
+                ],
+              ),
+              SizedBox(height: getHeight(24)),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: CustomSubmitButton(
+                  text: "Sign In",
+                  fontSize: getWidth(18),
+                  fontWeight: FontWeight.w700,
+                  onTap: () {},
                 ),
               ),
             ],
