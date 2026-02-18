@@ -38,7 +38,7 @@ class CustomSubmitButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       color: color ?? AppColors.primary, // Use the provided color or the default color
-      borderRadius: borderRadius ?? BorderRadius.circular(4),
+      borderRadius: borderRadius ?? BorderRadius.circular(12),
       child: InkWell(
         splashColor: Colors.white.withOpacity(0.5),
         borderRadius: borderRadius ?? BorderRadius.circular(12),
