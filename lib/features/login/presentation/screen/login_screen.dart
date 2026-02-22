@@ -93,7 +93,9 @@ class LoginScreen extends StatelessWidget {
                   text: "Sign In",
                   fontSize: getWidth(18),
                   fontWeight: FontWeight.w700,
-                  onTap: () {},
+                  onTap: () {
+                    controller.login();
+                  },
                 ),
               ),
             ],
