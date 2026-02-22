@@ -5,7 +5,7 @@ class AppUrls {
 
   static String getConversationList = '$_baseUrl/chats/conversation-list';
 
-// static const String login = '$_baseUrl/auth/login';
+static const String login = '$_baseUrl/auth/login';
 
 
 }
