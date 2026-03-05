@@ -16,7 +16,7 @@ class NetworkCaller {
       final Response response = await get(
         Uri.parse(endpoint),
         headers: {
-          'Authorization': token ?? AuthService.token.toString(),
+          'Authorization': token ?? "Bearer ${AuthService.token.toString()}",
           'Content-type': 'application/json',
         },
       ).timeout(Duration(seconds: timeoutDuration));
@@ -35,7 +35,7 @@ class NetworkCaller {
       final Response response = await post(
         Uri.parse(endpoint),
         headers: {
-          'Authorization': token ?? AuthService.token.toString(),
+          'Authorization': token ?? "Bearer ${AuthService.token.toString()}",
           'Content-type': 'application/json',
         },
         body: jsonEncode(body),
@@ -55,7 +55,7 @@ class NetworkCaller {
       final Response response = await put(
         Uri.parse(endpoint),
         headers: {
-          'Authorization': token ?? AuthService.token.toString(),
+          'Authorization': token ?? "Bearer ${AuthService.token.toString()}",
           'Content-type': 'application/json',
         },
         body: jsonEncode(body),
@@ -96,7 +96,7 @@ class NetworkCaller {
       final Response response = await delete(
         Uri.parse(endpoint),
         headers: {
-          'Authorization': token ?? AuthService.token.toString(),
+          'Authorization': token ?? "Bearer ${AuthService.token.toString()}",
           'Content-type': 'application/json',
         },
       ).timeout(Duration(seconds: timeoutDuration));
