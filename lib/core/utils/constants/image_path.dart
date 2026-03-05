@@ -6,5 +6,6 @@ class ImagePath{
 
   static const  String splashBacOne='$_basePath/splash_vector.png';
   static const  String conversationImage='$_basePath/conversation.json';
+  static const  String loadingAnimation='$_basePath/sandy_loading.json';
   static const  String profileImage='$_basePath/profileImage.png';
 }
