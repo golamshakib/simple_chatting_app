@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
+import '../../common/widgets/app_loader.dart';
+
 class AppHelperFunctions{
  AppHelperFunctions._();
  static void showSnackBar(String message) {
@@ -26,6 +28,27 @@ class AppHelperFunctions{
     );
    },
   );
+ }
+
+ static void showAppLoader() {
+  showDialog(
+   context: Get.context!,
+   barrierDismissible: false,
+   barrierColor: Colors.black.withAlpha(45),
+   builder: (_) {
+    return const Dialog(
+     backgroundColor: Colors.transparent,
+     elevation: 0,
+     child: AppLoader(),
+    );
+   },
+  );
+ }
+
+ static void hideAppLoader() {
+  if (Get.isDialogOpen ?? false) {
+   Get.back();
+  }
  }
 
  static void navigateToScreen(BuildContext context, Widget screen) {

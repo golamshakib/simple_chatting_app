@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:simple_chatting_app/core/services/auth_service.dart';
 import 'package:simple_chatting_app/core/utils/constants/app_urls.dart';
+import 'package:simple_chatting_app/core/utils/helpers/app_helper.dart';
 import 'package:simple_chatting_app/routes/app_routes.dart';
 
 import '../../../core/common/widgets/app_snack_bar.dart';
@@ -11,8 +12,8 @@ import '../../../core/services/network_caller.dart';
 
 class LoginController extends GetxController {
 
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
+  final emailController = TextEditingController(text: "a@fexpost.com");
+  final passwordController = TextEditingController(text: "123456!A");
   final isVisible = true.obs;
   void changeVisible() {
     isVisible.value = !isVisible.value;
@@ -20,6 +21,8 @@ class LoginController extends GetxController {
 
   Future<void> login() async {
     try {
+      AppHelperFunctions.showAppLoader();
+
       final requestBody = {
         "email" : emailController.text.trim().toLowerCase(),
         "password" : passwordController.text.trim(),
@@ -29,6 +32,8 @@ class LoginController extends GetxController {
         AppUrls.login,
         body: requestBody,
       );
+
+      // AppHelperFunctions.hideAppLoader();
 
       if (response.isSuccess) {
         final data = response.responseData? ['result'];
