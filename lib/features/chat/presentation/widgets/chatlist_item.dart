@@ -14,7 +14,7 @@ class ChatListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(ChatListController());
+    final controller = Get.find<ChatListController>();
     return ListTile(
       contentPadding: EdgeInsets.symmetric(
         vertical: getHeight(4),

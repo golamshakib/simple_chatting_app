@@ -1,8 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:simple_chatting_app/core/common/widgets/custom_appbar.dart';
 import 'package:simple_chatting_app/core/utils/constants/app_sizes.dart';
 
+import '../../../../core/common/widgets/custom_pull_refresh.dart';
 import '../../controler/chatlist_controller.dart';
 import '../widgets/chatlist_item.dart';
 
@@ -23,16 +25,43 @@ class ChattingListScreen extends StatelessWidget {
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.all(getWidth(24)),
-          child: Column(
-            children: [
-             Expanded(
-                  child: ListView.builder(
-                    itemCount: 15,
-                    itemBuilder: (context, index) {
-                      return ChatListItem();
-                    },
-                  ),
+          child: CustomScrollView(
+            physics: const BouncingScrollPhysics(),
+            slivers: [
+
+              /// Custom Pull To Refresh
+              CupertinoSliverRefreshControl(
+                onRefresh: () async {
+                  await controller.refreshChatList();
+                },
+                builder: (
+                    BuildContext context,
+                    RefreshIndicatorMode mode,
+                    double pulledExtent,
+                    double refreshTriggerPullDistance,
+                    double refreshIndicatorExtent,
+                    ) {
+
+                  final bool refreshing =
+                      mode == RefreshIndicatorMode.refresh ||
+                          mode == RefreshIndicatorMode.armed;
+
+                  return CustomPullRefresh(
+                    pulledExtent: pulledExtent,
+                    refreshing: refreshing,
+                  );
+                },
+              ),
+
+              /// Chat List
+              SliverList(
+                delegate: SliverChildBuilderDelegate(
+                      (context, index) {
+                    return const ChatListItem();
+                  },
+                  childCount: 15,
                 ),
+              ),
             ],
           ),
         ),
@@ -40,5 +69,3 @@ class ChattingListScreen extends StatelessWidget {
     );
   }
 }
-
-
