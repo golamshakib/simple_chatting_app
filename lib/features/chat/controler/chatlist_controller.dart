@@ -33,4 +33,10 @@ class ChatListController extends GetxController {
       AppLoggerHelper.error("Error: $e");
     }
   }
+
+  Future<void> refreshChatList() async {
+    await Future.delayed(const Duration(seconds: 1));
+    await getConversationList();
+    update();
+  }
 }
