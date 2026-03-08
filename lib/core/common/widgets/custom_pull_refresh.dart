@@ -43,7 +43,7 @@ class CustomPullRefresh extends StatelessWidget {
                 height: 40,
                 width: 40,
                 child: CircularProgressIndicator(
-                  strokeWidth: 3,
+                  strokeWidth: 2,
                   color: AppColors.textPrimary,
                 ),
               ),
