@@ -55,6 +55,7 @@ dependencies:
   flutter_svg: ^2.2.3
   lottie: ^3.3.2
   slide_to_act: ^2.0.2
+  simple_3d: ^17.2.0
 
 dev_dependencies:
   flutter_test:

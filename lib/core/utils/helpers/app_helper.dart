@@ -30,18 +30,15 @@ class AppHelperFunctions{
   );
  }
 
- static void showAppLoader() {
-  showDialog(
-   context: Get.context!,
+  static void showAppLoader() {
+  Get.dialog(
+   const Dialog(
+    backgroundColor: Colors.transparent,
+    elevation: 0,
+    child: AppLoader(),
+   ),
    barrierDismissible: false,
    barrierColor: Colors.black.withAlpha(45),
-   builder: (_) {
-    return const Dialog(
-     backgroundColor: Colors.transparent,
-     elevation: 0,
-     child: AppLoader(),
-    );
-   },
   );
  }
 

@@ -113,6 +113,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "7.0.1"
+  file_state_manager:
+    dependency: transitive
+    description:
+      name: file_state_manager
+      sha256: dcbd7162e8cadbf84f35fe86f801e382f423bb19b569a3f00dceeb1e27638094
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.1"
   firebase_core:
     dependency: "direct main"
     description:
@@ -504,6 +512,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.4.1"
+  simple_3d:
+    dependency: "direct main"
+    description:
+      name: simple_3d
+      sha256: e964efc2f71f41d7eee09619e3accdf8cf961666a37f1211540aa14800d5e0e5
+      url: "https://pub.dev"
+    source: hosted
+    version: "17.2.0"
   sky_engine:
     dependency: transitive
     description: flutter
