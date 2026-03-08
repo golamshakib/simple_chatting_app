@@ -36,14 +36,14 @@ class LoginController extends GetxController {
       // AppHelperFunctions.hideAppLoader();
 
       if (response.isSuccess) {
-        final data = response.responseData? ['result'];
+        final data = response.responseData?['result'];
         final String? token = data?['accessToken'];
         final String? userId = data?['id'];
 
         log("RESULT IS: $data");
         log("TOKEN IS : $token");
 
-        if (token == null || token.isEmpty){
+        if (token == null || token.isEmpty) {
           AppSnackBar.showError('Login failed: Token Missing. Try again later');
           return;
         }
@@ -52,17 +52,16 @@ class LoginController extends GetxController {
 
         // Navigate to the Message List Screen
         Get.offAllNamed(AppRoute.chattingListScreen);
-
       } else if (response.statusCode == 401) {
         AppSnackBar.showError("Invalid Email or Password");
       } else {
-        AppSnackBar.showError("Login failed. Please try again later.}");
+        AppSnackBar.showError("Login failed. Please try again later.");
       }
-
-    } catch (e, s){
-      Get.back();
+    } catch (e, s) {
       log("Login Error: ", error: e, stackTrace: s);
-      AppSnackBar.showError("Login failed. Please try again later.}");
+      AppSnackBar.showError("Login failed. Please try again later.");
+    } finally {
+      AppHelperFunctions.hideAppLoader();
     }
   }
 }
