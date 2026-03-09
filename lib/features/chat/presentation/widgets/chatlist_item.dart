@@ -16,8 +16,9 @@ class ChatListItem extends StatelessWidget {
     final participants = conversation.participants;
     return ListTile(
       contentPadding: EdgeInsets.symmetric(vertical: getHeight(4)),
+      visualDensity: VisualDensity(horizontal: getWidth(-2)),
       leading: CircleAvatar(
-        radius: 35,
+        radius: getWidth(35),
         // Default background image
         backgroundImage: AssetImage(ImagePath.profileImage),
         // Load participant's image if available, otherwise use default

@@ -61,10 +61,10 @@ class ChattingListScreen extends StatelessWidget {
                 SliverList(
                   delegate: SliverChildBuilderDelegate((context, index) {
                     final chat = controller.conversationList[index];
-                    return ChatListItem(
-                      conversation: chat,
-                    );
-                  }, childCount: controller.conversationList.length),
+                    return ChatListItem(conversation: chat);
+                  },
+                      childCount: controller.conversationList.length
+                  ),
                 ),
               ],
             );
