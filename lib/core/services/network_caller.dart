@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
+import 'package:simple_chatting_app/core/utils/helpers/app_helper.dart';
 import '../models/response_data.dart';
 import '../utils/logging/logger.dart';
 import 'auth_service.dart';
@@ -66,11 +67,10 @@ class NetworkCaller {
     }
   }
 
-  Future<ResponseData> patchRequest(
-      String endpoint, {
-        Map<String, dynamic>? body,
-        String? token,
-      }) async {
+  Future<ResponseData> patchRequest(String endpoint, {
+    Map<String, dynamic>? body,
+    String? token,
+  }) async {
     AppLoggerHelper.info('PATCH Request: $endpoint');
     AppLoggerHelper.info('Request Body: ${jsonEncode(body)}');
 
@@ -111,108 +111,135 @@ class NetworkCaller {
     AppLoggerHelper.info('Response Status: ${response.statusCode}');
     AppLoggerHelper.info('Response Body: ${response.body}');
 
+    dynamic decodedResponse;
+
     try {
-      final decodedResponse = jsonDecode(response.body);
-      switch (response.statusCode) {
-        case 200:
-        case 201:
-          return ResponseData(
-            isSuccess: true,
-            statusCode: response.statusCode,
-            responseData: decodedResponse,
-            errorMessage: '',
-          );
-        case 204:
-          return ResponseData(
-            isSuccess: true,
-            statusCode: response.statusCode,
-            responseData: decodedResponse,
-            errorMessage: '',
-          );
-        case 400:
-          return ResponseData(
-            isSuccess: false,
-            statusCode: response.statusCode,
-            errorMessage: decodedResponse['error'] ??
-                'There was an issue with your request. Please try again.',
-            responseData: decodedResponse,
-          );
-        case 401:
-          await AuthService.logoutUser();
-          return ResponseData(
-            isSuccess: false,
-            statusCode: response.statusCode,
-            errorMessage: 'You are not authorized. Please log in to continue.',
-            responseData: decodedResponse,
-          );
-        case 403:
-          return ResponseData(
-            isSuccess: false,
-            statusCode: response.statusCode,
-            errorMessage: 'You do not have permission to access this resource.',
-            responseData: decodedResponse,
-          );
-        case 404:
-          return ResponseData(
-            isSuccess: false,
-            statusCode: response.statusCode,
-            errorMessage: 'The resource you are looking for was not found.',
-            responseData: decodedResponse,
-          );
-        case 500:
-          return ResponseData(
-            isSuccess: false,
-            statusCode: response.statusCode,
-            errorMessage: 'Internal server error. Please try again later.',
-            responseData: decodedResponse,
-          );
-        default:
-          return ResponseData(
-            isSuccess: false,
-            statusCode: response.statusCode,
-            errorMessage: decodedResponse['error'] ??
-                'Something went wrong. Please try again.',
-            responseData: decodedResponse,
-          );
-      }
+      decodedResponse = jsonDecode(response.body);
     } catch (e) {
-      final decodedResponse = jsonDecode(response.body);
-      return ResponseData(
-        isSuccess: false,
-        statusCode: response.statusCode,
-        errorMessage: decodedResponse['error'] ?? 'Failed to process the response. Please try again later.',
-        responseData: decodedResponse,
-      );
+      decodedResponse = response.body;
+    }
+    switch (response.statusCode) {
+      /// SUCCESS
+      case 200:
+      case 201:
+        if(decodedResponse is Map && decodedResponse ['message'] != null){
+         AppHelperFunctions.showSnackBar(decodedResponse['message']);
+        }
+        return ResponseData(
+          isSuccess: true,
+          statusCode: response.statusCode,
+          responseData: decodedResponse,
+          errorMessage: '',
+        );
+        /// NO CONTENT
+      case 204:
+        AppHelperFunctions.showSnackBar("Request successful");
+        return ResponseData(
+          isSuccess: true,
+          statusCode: response.statusCode,
+          responseData: decodedResponse,
+          errorMessage: '',
+        );
+        /// BAD REQUEST
+      case 400:
+        String message = decodedResponse['message'] ?? decodedResponse['error'] ?? "Bad request";
+        AppHelperFunctions.showSnackBar(message);
+        return ResponseData(
+          isSuccess: false,
+          statusCode: response.statusCode,
+          responseData: decodedResponse,
+          errorMessage: message,
+        );
+        /// UNAUTHORIZED
+      case 401:
+        await AuthService.logoutUser();
+        String message = decodedResponse['message'] ?? "Session expired. Please login again.";
+        AppHelperFunctions.showSnackBar(message);
+        return ResponseData(
+          isSuccess: false,
+          statusCode: response.statusCode,
+          responseData: decodedResponse,
+          errorMessage: message,
+        );
+        /// FORBIDDEN
+      case 403:
+        String message = decodedResponse['message'] ?? "You don't have permission to access this resource.";
+        AppHelperFunctions.showSnackBar(message);
+        return ResponseData(
+          isSuccess: false,
+          statusCode: response.statusCode,
+          responseData: decodedResponse,
+          errorMessage: message,
+        );
+          /// NOT FOUND
+      case 404:
+        String message = decodedResponse['message'] ?? "Requested resource not found.";
+        AppHelperFunctions.showSnackBar(message);
+        return ResponseData(
+          isSuccess: false,
+          statusCode: response.statusCode,
+          responseData: decodedResponse,
+          errorMessage: message,
+        );
+        /// INTERNAL SERVER ERROR
+      case 500:
+        String message = decodedResponse['message'] ?? "Internal server error. Please try again later.";
+        AppHelperFunctions.showSnackBar(message);
+        return ResponseData(
+          isSuccess: false,
+          statusCode: response.statusCode,
+          responseData: decodedResponse,
+          errorMessage: message,
+        );
+        /// DEFAULT CASE FOR OTHER STATUS CODES
+      default:
+        String message = decodedResponse is Map
+            ? decodedResponse['message'] ??
+            decodedResponse['error'] ??
+            "Something went wrong."
+            : "Unexpected error occurred.";
+        AppHelperFunctions.showSnackBar(message);
+
+        return ResponseData(
+          isSuccess: false,
+          statusCode: response.statusCode,
+          responseData: decodedResponse,
+          errorMessage: message,
+        );
     }
   }
+}
 
-  // Handle errors during the request process
-  ResponseData _handleError(dynamic error) {
-    log('Request Error: $error');
+// Handle errors during the request process
+ResponseData _handleError(dynamic error) {
+  log('Request Error: $error');
 
-    if (error is TimeoutException) {
-      return ResponseData(
-        isSuccess: false,
-        statusCode: 408,
-        errorMessage:
-            'Request timed out. Please check your internet connection and try again.',
-        responseData: null,
-      );
-    } else if (error is http.ClientException) {
-      return ResponseData(
-        isSuccess: false,
-        statusCode: 500,
-        errorMessage:
-            'Network error occurred. Please check your connection and try again.',
-        responseData: null,
-      );
-    } else {
-      return ResponseData(
-        isSuccess: false,
-        statusCode: 500,
-        errorMessage: 'Unexpected error occurred. Please try again later.',
-        responseData: null,
-      );
-    }
+  String message = "Unexpected error occurred. Please try again later.";
+  int statusCode = 500;
+
+  if (error is TimeoutException) {
+    message =
+    "Request timeout. Please check your internet connection and try again.";
+    statusCode = 408;
   }
+
+  else if (error is http.ClientException) {
+    message =
+    "Network error occurred. Please check your internet connection.";
+    statusCode = 503;
+  }
+
+  else if (error.toString().contains("SocketException")) {
+    message = "No internet connection. Please check your network.";
+    statusCode = 503;
+  }
+
+  AppHelperFunctions.showSnackBar(message);
+
+  return ResponseData(
+    isSuccess: false,
+    statusCode: statusCode,
+    errorMessage: message,
+    responseData: null,
+  );
 }
