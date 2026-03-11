@@ -9,7 +9,7 @@ import 'package:simple_chatting_app/core/utils/logging/logger.dart';
 import '../data/model/chatlist-model.dart';
 
 class ChatListController extends GetxController {
-  RxBool isLoading = false.obs;
+
 
   // Conversation List
   RxList<ConversationResult> conversationList = <ConversationResult>[].obs;

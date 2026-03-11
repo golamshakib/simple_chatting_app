@@ -1,14 +1,61 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:simple_chatting_app/core/common/widgets/custom_text.dart';
+import 'package:simple_chatting_app/core/utils/constants/app_sizes.dart';
+import 'package:simple_chatting_app/core/utils/constants/image_path.dart';
 
 import '../../common/widgets/app_loader.dart';
 
 class AppHelperFunctions{
  AppHelperFunctions._();
  static void showSnackBar(String message) {
-  ScaffoldMessenger.of(Get.context!).showSnackBar(
-   SnackBar(content: Text(message)),
+
+  Get.showSnackbar(
+   GetSnackBar(
+    snackPosition: SnackPosition.TOP,
+    margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
+    borderRadius: 16,
+    backgroundColor: Colors.black.withOpacity(0.7),
+
+    duration: const Duration(seconds: 3),
+    animationDuration: const Duration(milliseconds: 400),
+    boxShadows: [
+     BoxShadow(
+      color: Colors.black.withOpacity(0.2),
+      blurRadius: 10,
+      offset: const Offset(0, 4),
+     )
+    ],
+
+    messageText: Row(
+     children: [
+
+      /// App Icon
+      Container(
+       height: getHeight(36),
+       width: getWidth(36),
+       decoration: BoxDecoration(
+        color: Colors.white.withOpacity(.15),
+        borderRadius: BorderRadius.circular(10),
+       ),
+       child: SvgPicture.asset(
+       ImagePath.appLogo,
+       ),
+      ),
+
+      const SizedBox(width: 12),
+
+      /// Message
+      Expanded(
+       child: CustomText(
+        text: message,
+       ),
+      ),
+     ],
+    ),
+   ),
   );
  }
 
