@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:simple_chatting_app/core/common/widgets/custom_text.dart';
+import 'package:simple_chatting_app/core/utils/constants/app_colors.dart';
 import 'package:simple_chatting_app/core/utils/constants/app_sizes.dart';
 import 'package:simple_chatting_app/core/utils/constants/image_path.dart';
 
@@ -15,18 +16,18 @@ class AppHelperFunctions{
   Get.showSnackbar(
    GetSnackBar(
     snackPosition: SnackPosition.TOP,
-    margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
+    margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
     borderRadius: 16,
-    backgroundColor: Colors.black.withOpacity(0.7),
+    backgroundColor: Colors.black.withAlpha(100),
 
     duration: const Duration(seconds: 3),
     animationDuration: const Duration(milliseconds: 400),
     boxShadows: [
-     BoxShadow(
-      color: Colors.black.withOpacity(0.2),
-      blurRadius: 10,
-      offset: const Offset(0, 4),
-     )
+     // BoxShadow(
+     //  color: Colors.black.withOpacity(0.2),
+     //  blurRadius: 10,
+     //  offset: const Offset(0, 4),
+     // )
     ],
 
     messageText: Row(
@@ -37,11 +38,12 @@ class AppHelperFunctions{
        height: getHeight(36),
        width: getWidth(36),
        decoration: BoxDecoration(
-        color: Colors.white.withOpacity(.15),
+        // color: Colors.white.withOpacity(.15),
         borderRadius: BorderRadius.circular(10),
        ),
        child: SvgPicture.asset(
        ImagePath.appLogo,
+        colorFilter: ColorFilter.mode(Colors.white, BlendMode.srcIn),
        ),
       ),
 
@@ -51,6 +53,9 @@ class AppHelperFunctions{
       Expanded(
        child: CustomText(
         text: message,
+        fontSize: getWidth(16),
+        fontWeight: FontWeight.w600,
+        textColor: Colors.white,
        ),
       ),
      ],
