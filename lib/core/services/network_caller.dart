@@ -11,7 +11,7 @@ import 'auth_service.dart';
 class NetworkCaller {
   final int timeoutDuration = 10;
 
-  Future<ResponseData> getRequest(String endpoint, {String? token}) async {
+  Future<ResponseData> getRequest(String endpoint, {String? token, bool showSuccessSnackbar = true, bool showErrorSnackbar = true}) async {
     AppLoggerHelper.info('GET Request: $endpoint');
     try {
       final Response response = await get(
@@ -21,14 +21,14 @@ class NetworkCaller {
           'Content-type': 'application/json',
         },
       ).timeout(Duration(seconds: timeoutDuration));
-      return _handleResponse(response);
+      return _handleResponse(response, showSuccessSnackbar, showErrorSnackbar);
     } catch (e) {
-      return _handleError(e);
+      return _handleError(e, showErrorSnackbar);
     }
   }
 
   Future<ResponseData> postRequest(String endpoint,
-      {Map<String, dynamic>? body, String? token}) async {
+      {Map<String, dynamic>? body, String? token, bool showSuccessSnackbar = true, bool showErrorSnackbar = true}) async {
     AppLoggerHelper.info('POST Request: $endpoint');
     AppLoggerHelper.info('Request Body: ${jsonEncode(body.toString())}');
 
@@ -41,14 +41,14 @@ class NetworkCaller {
         },
         body: jsonEncode(body),
       ).timeout(Duration(seconds: timeoutDuration));
-      return _handleResponse(response);
+      return _handleResponse(response, showSuccessSnackbar, showErrorSnackbar);
     } catch (e) {
-      return _handleError(e);
+      return _handleError(e, showErrorSnackbar);
     }
   }
 
   Future<ResponseData> putRequest(String endpoint,
-      {Map<String, dynamic>? body, String? token}) async {
+      {Map<String, dynamic>? body, String? token, bool showSuccessSnackbar = true, bool showErrorSnackbar = true}) async {
     AppLoggerHelper.info('PUT Request: $endpoint');
     AppLoggerHelper.info('Request Body: ${jsonEncode(body.toString())}');
 
@@ -61,15 +61,17 @@ class NetworkCaller {
         },
         body: jsonEncode(body),
       ).timeout(Duration(seconds: timeoutDuration));
-      return _handleResponse(response);
+      return _handleResponse(response, showSuccessSnackbar, showErrorSnackbar);
     } catch (e) {
-      return _handleError(e);
+      return _handleError(e, showErrorSnackbar);
     }
   }
 
   Future<ResponseData> patchRequest(String endpoint, {
     Map<String, dynamic>? body,
     String? token,
+    bool showSuccessSnackbar = true,
+    bool showErrorSnackbar = true,
   }) async {
     AppLoggerHelper.info('PATCH Request: $endpoint');
     AppLoggerHelper.info('Request Body: ${jsonEncode(body)}');
@@ -84,13 +86,13 @@ class NetworkCaller {
         body: jsonEncode(body),
       ).timeout(Duration(seconds: timeoutDuration));
 
-      return _handleResponse(response);
+      return _handleResponse(response, showSuccessSnackbar, showErrorSnackbar);
     } catch (e) {
-      return _handleError(e);
+      return _handleError(e, showErrorSnackbar);
     }
   }
 
-  Future<ResponseData> deleteRequest(String endpoint, String? token) async {
+  Future<ResponseData> deleteRequest(String endpoint, String? token, {bool showSuccessSnackbar = true, bool showErrorSnackbar = true}) async {
     AppLoggerHelper.info('DELETE Request: $endpoint');
     try {
       final Response response = await delete(
@@ -100,14 +102,14 @@ class NetworkCaller {
           'Content-type': 'application/json',
         },
       ).timeout(Duration(seconds: timeoutDuration));
-      return _handleResponse(response);
+      return _handleResponse(response, showSuccessSnackbar, showErrorSnackbar);
     } catch (e) {
-      return _handleError(e);
+      return _handleError(e, showErrorSnackbar);
     }
   }
 
   // Handle the response from the server
-  Future<ResponseData> _handleResponse(http.Response response) async {
+  Future<ResponseData> _handleResponse(http.Response response, bool showSuccessSnackbar, bool showErrorSnackbar) async {
     AppLoggerHelper.info('Response Status: ${response.statusCode}');
     AppLoggerHelper.info('Response Body: ${response.body}');
 
@@ -122,7 +124,7 @@ class NetworkCaller {
       /// SUCCESS
       case 200:
       case 201:
-        if(decodedResponse is Map && decodedResponse ['message'] != null){
+        if(showSuccessSnackbar && decodedResponse is Map && decodedResponse ['message'] != null){
          AppHelperFunctions.showSnackBar(decodedResponse['message']);
         }
         return ResponseData(
@@ -133,7 +135,7 @@ class NetworkCaller {
         );
         /// NO CONTENT
       case 204:
-        AppHelperFunctions.showSnackBar("Request successful");
+        if (showSuccessSnackbar) AppHelperFunctions.showSnackBar("Request successful");
         return ResponseData(
           isSuccess: true,
           statusCode: response.statusCode,
@@ -143,7 +145,7 @@ class NetworkCaller {
         /// BAD REQUEST
       case 400:
         String message = decodedResponse['message'] ?? decodedResponse['error'] ?? "Bad request";
-        AppHelperFunctions.showSnackBar(message);
+        if (showErrorSnackbar) AppHelperFunctions.showSnackBar(message);
         return ResponseData(
           isSuccess: false,
           statusCode: response.statusCode,
@@ -154,7 +156,7 @@ class NetworkCaller {
       case 401:
         await AuthService.logoutUser();
         String message = decodedResponse['message'] ?? "Session expired. Please login again.";
-        AppHelperFunctions.showSnackBar(message);
+        if (showErrorSnackbar) AppHelperFunctions.showSnackBar(message);
         return ResponseData(
           isSuccess: false,
           statusCode: response.statusCode,
@@ -164,7 +166,7 @@ class NetworkCaller {
         /// FORBIDDEN
       case 403:
         String message = decodedResponse['message'] ?? "You don't have permission to access this resource.";
-        AppHelperFunctions.showSnackBar(message);
+        if (showErrorSnackbar) AppHelperFunctions.showSnackBar(message);
         return ResponseData(
           isSuccess: false,
           statusCode: response.statusCode,
@@ -174,7 +176,7 @@ class NetworkCaller {
           /// NOT FOUND
       case 404:
         String message = decodedResponse['message'] ?? "Requested resource not found.";
-        AppHelperFunctions.showSnackBar(message);
+        if (showErrorSnackbar) AppHelperFunctions.showSnackBar(message);
         return ResponseData(
           isSuccess: false,
           statusCode: response.statusCode,
@@ -184,7 +186,7 @@ class NetworkCaller {
         /// INTERNAL SERVER ERROR
       case 500:
         String message = decodedResponse['message'] ?? "Internal server error. Please try again later.";
-        AppHelperFunctions.showSnackBar(message);
+        if (showErrorSnackbar) AppHelperFunctions.showSnackBar(message);
         return ResponseData(
           isSuccess: false,
           statusCode: response.statusCode,
@@ -198,7 +200,7 @@ class NetworkCaller {
             decodedResponse['error'] ??
             "Something went wrong."
             : "Unexpected error occurred.";
-        AppHelperFunctions.showSnackBar(message);
+        if (showErrorSnackbar) AppHelperFunctions.showSnackBar(message);
 
         return ResponseData(
           isSuccess: false,
@@ -211,7 +213,7 @@ class NetworkCaller {
 }
 
 // Handle errors during the request process
-ResponseData _handleError(dynamic error) {
+ResponseData _handleError(dynamic error, bool showErrorSnackbar) {
   log('Request Error: $error');
 
   String message = "Unexpected error occurred. Please try again later.";
@@ -234,7 +236,7 @@ ResponseData _handleError(dynamic error) {
     statusCode = 503;
   }
 
-  AppHelperFunctions.showSnackBar(message);
+  if (showErrorSnackbar) AppHelperFunctions.showSnackBar(message);
 
   return ResponseData(
     isSuccess: false,

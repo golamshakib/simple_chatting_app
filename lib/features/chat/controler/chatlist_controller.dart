@@ -25,6 +25,7 @@ class ChatListController extends GetxController {
       AppHelperFunctions.showAppLoader();
       final response = await NetworkCaller().getRequest(
         "${AppUrls.getConversationList}?limit=10&page=1",
+        showSuccessSnackbar: false,
       );
       if (response.isSuccess) {
         final data = ConversationResponse.fromJson(response.responseData);
