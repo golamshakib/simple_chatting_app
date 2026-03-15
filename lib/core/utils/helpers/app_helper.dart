@@ -18,8 +18,8 @@ class AppHelperFunctions {
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       borderRadius: 24,
       backgroundColor: Colors.transparent,
-      duration: const Duration(seconds: 4),
-      animationDuration: const Duration(milliseconds: 400),
+      duration: const Duration(seconds: 3),
+      animationDuration: const Duration(milliseconds: 600),
       isDismissible: true,
       snackStyle: SnackStyle.FLOATING,
       overlayBlur:0,
@@ -46,8 +46,8 @@ class AppHelperFunctions {
               children: [
                 /// App Icon Container
                 Container(
-                  height: 38,
-                  width: 38,
+                  height: getHeight(38),
+                  width: getWidth(38),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(10),

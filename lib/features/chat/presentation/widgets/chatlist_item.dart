@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:simple_chatting_app/features/chat/data/model/chatlist-model.dart';
+import 'package:simple_chatting_app/routes/app_routes.dart';
 
 import '../../../../core/common/widgets/custom_text.dart';
 import '../../../../core/utils/constants/app_sizes.dart';
@@ -15,6 +17,7 @@ class ChatListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final participants = conversation.participants;
     return ListTile(
+      onTap: () {Get.toNamed(AppRoute.messageScreen,);},
       contentPadding: EdgeInsets.symmetric(vertical: getHeight(4)),
       visualDensity: VisualDensity(horizontal: getWidth(-2)),
       leading: CircleAvatar(
