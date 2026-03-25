@@ -73,4 +73,16 @@ class ChattingListScreen extends StatelessWidget {
       ),
     );
   }
+
+
+
+
+
+
+
+
+
+
+
+
 }
