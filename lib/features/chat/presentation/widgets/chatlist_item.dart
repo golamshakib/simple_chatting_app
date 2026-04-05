@@ -7,6 +7,7 @@ import '../../../../core/common/widgets/custom_text.dart';
 import '../../../../core/utils/constants/app_sizes.dart';
 import '../../../../core/utils/constants/image_path.dart';
 import '../helper_method/helper_method.dart';
+
 class ChatListItem extends StatelessWidget {
   final ConversationResult conversation;
 
@@ -16,7 +17,9 @@ class ChatListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final participants = conversation.participants;
     return ListTile(
-      onTap: () {Get.toNamed(AppRoute.messageScreen,);},
+      onTap: () {
+        Get.toNamed(AppRoute.messageScreen, arguments: conversation);
+      },
       contentPadding: EdgeInsets.symmetric(vertical: getHeight(4)),
       visualDensity: VisualDensity(horizontal: getWidth(-2)),
       leading: CircleAvatar(

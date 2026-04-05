@@ -16,6 +16,6 @@ class AppRoute {
     GetPage(name: init, page: () => const SplashScreen()),
     GetPage(name: loginScreen, page: () => const LoginScreen()),
     GetPage(name: chattingListScreen, page: () => const ChattingListScreen()),
-    GetPage(name: messageScreen, page: () => const MessageScreen()),
+    GetPage(name: messageScreen, page: () => MessageScreen()),
   ];
 }
