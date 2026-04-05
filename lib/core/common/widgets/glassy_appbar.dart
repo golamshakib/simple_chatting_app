@@ -19,14 +19,17 @@ class GlassyAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.badgeCount,
     this.onBackTap,
     this.actions,
-    this.blur = 15.0,
+    this.blur = 20.0,
   });
 
   @override
   Widget build(BuildContext context) {
+    const double islandHeight = 50.0;
+    bool hasBadge = badgeCount != null && badgeCount! > 0;
+
     return Container(
       color: Colors.transparent,
-      padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top + 8),
+      padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top + 2),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Row(
@@ -34,28 +37,24 @@ class GlassyAppBar extends StatelessWidget implements PreferredSizeWidget {
             // Isolated Floating Back Button
             _FloatingIsland(
               blur: blur,
+              isCircle: !hasBadge,
+              height: islandHeight,
               child: GestureDetector(
                 onTap: onBackTap ?? () => Navigator.pop(context),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 12,
-                  ),
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: hasBadge ? 12 : 0),
                   child: Row(
+                    mainAxisSize: MainAxisSize.min,
                     children: [
-                      const Icon(
-                        Icons.arrow_back_ios_new,
-                        size: 18,
-                        color: Colors.black,
-                      ),
-                      if (badgeCount != null && badgeCount! > 0)
+                      const Icon(Icons.arrow_back_ios_new, size: 18, color: Colors.black),
+                      if (hasBadge)
                         Padding(
                           padding: const EdgeInsets.only(left: 4),
                           child: CustomText(
                             text: badgeCount.toString(),
                             textColor: Colors.black87,
                             fontWeight: FontWeight.w600,
-                            fontSize: 15,
+                            fontSize: 16,
                           ),
                         ),
                     ],
@@ -63,20 +62,17 @@ class GlassyAppBar extends StatelessWidget implements PreferredSizeWidget {
                 ),
               ),
             ),
-            const SizedBox(width: 8),
+            const SizedBox(width: 16),
             // Isolated Floating Center Title Pill
             Expanded(
               child: _FloatingIsland(
                 blur: blur,
-                borderRadius: 30,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 6,
-                    horizontal: 16,
-                  ),
-
+                borderRadius: 28,
+                height: islandHeight,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: Column(
-                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       CustomText(
                         text: title ?? '',
@@ -98,22 +94,19 @@ class GlassyAppBar extends StatelessWidget implements PreferredSizeWidget {
                 ),
               ),
             ),
-            const SizedBox(width: 8),
+            const SizedBox(width: 16),
             // Isolated Floating Profile Image
             _FloatingIsland(
               blur: blur,
               isCircle: true,
+              height: islandHeight,
               child: Container(
-                padding: const EdgeInsets.all(2), // Space for circle effect
+                padding: const EdgeInsets.all(2),
                 child: CircleAvatar(
-                  radius: 23,
-                  backgroundImage: profileImageUrl != null
-                      ? NetworkImage(profileImageUrl!)
-                      : null,
+                  radius: 25, // Diameter ~50 fits in 54 height
+                  backgroundImage: profileImageUrl != null ? NetworkImage(profileImageUrl!) : null,
                   backgroundColor: Colors.grey[200],
-                  child: profileImageUrl == null
-                      ? const Icon(Icons.person, color: Colors.grey)
-                      : null,
+                  child: profileImageUrl == null ? const Icon(Icons.person, color: Colors.grey) : null,
                 ),
               ),
             ),
@@ -132,11 +125,13 @@ class _FloatingIsland extends StatelessWidget {
   final double blur;
   final double borderRadius;
   final bool isCircle;
+  final double height;
 
   const _FloatingIsland({
     required this.child,
     required this.blur,
-    this.borderRadius = 22,
+    required this.height,
+    this.borderRadius = 25,
     this.isCircle = false,
   });
 
@@ -147,21 +142,21 @@ class _FloatingIsland extends StatelessWidget {
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: blur, sigmaY: blur),
         child: Container(
+          height: height,
+          width: isCircle ? height : null,
           decoration: BoxDecoration(
-            color: Colors.white.withValues(alpha: 0.75),
+            color: Colors.white, // Translucent to show blur
             borderRadius: BorderRadius.circular(isCircle ? 50 : borderRadius),
-            border: Border.all(
-              color: Colors.white.withValues(alpha: 0.3),
-              width: 0.6,
-            ),
+            border: Border.all(color: Colors.white.withValues(alpha: 0.35), width: 0.6),
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withValues(alpha: 0.05),
-                blurRadius: 8,
-                spreadRadius: 1,
+                blurRadius: 10,
+                spreadRadius: 2,
               ),
             ],
           ),
+          alignment: Alignment.center,
           child: child,
         ),
       ),

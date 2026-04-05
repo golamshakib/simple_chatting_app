@@ -70,9 +70,9 @@ class MessageScreen extends StatelessWidget {
             left: 0,
             right: 0,
             child: GlassyAppBar(
-              title: participants?.username ?? 'Jahid (SMT - BACKE...)',
+              title: participants?.username ?? 'Unknown User)',
               subtitle: 'last seen 37 minutes ago',
-              badgeCount: 11,
+              badgeCount: 50,
               profileImageUrl: (participants?.image != null && participants!.image!.isNotEmpty)
                   ? participants.image
                   : 'https://i.pravatar.cc/150?u=a042581f4e29026704d',

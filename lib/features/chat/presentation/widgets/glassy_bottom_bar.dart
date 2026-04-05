@@ -19,9 +19,11 @@ class GlassyBottomBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const double islandHeight = 50.0;
+
     return Container(
       color: Colors.transparent,
-      padding: const EdgeInsets.fromLTRB(12, 8, 12, 24),
+      padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
@@ -29,10 +31,10 @@ class GlassyBottomBar extends StatelessWidget {
           _BottomFloatingIsland(
             blur: blur,
             isCircle: true,
+            height: islandHeight,
             child: IconButton(
               icon: const Icon(Icons.attach_file, color: Colors.grey, size: 28),
               onPressed: onAttach,
-              padding: const EdgeInsets.all(12),
             ),
           ),
           const SizedBox(width: 8),
@@ -41,9 +43,10 @@ class GlassyBottomBar extends StatelessWidget {
           Expanded(
             child: _BottomFloatingIsland(
               blur: blur,
-              borderRadius: 30,
+              borderRadius: 28,
+              height: islandHeight,
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: Row(
                   children: [
                     Expanded(
@@ -73,10 +76,10 @@ class GlassyBottomBar extends StatelessWidget {
           _BottomFloatingIsland(
             blur: blur,
             isCircle: true,
+            height: islandHeight,
             child: IconButton(
               icon: const Icon(Icons.mic_none, color: Colors.black87, size: 28),
               onPressed: onMicTap,
-              padding: const EdgeInsets.all(12),
             ),
           ),
         ],
@@ -90,11 +93,13 @@ class _BottomFloatingIsland extends StatelessWidget {
   final double blur;
   final double borderRadius;
   final bool isCircle;
+  final double height;
 
   const _BottomFloatingIsland({
     required this.child,
     required this.blur,
-    this.borderRadius = 22,
+    required this.height,
+    this.borderRadius = 25,
     this.isCircle = false,
   });
 
@@ -105,8 +110,10 @@ class _BottomFloatingIsland extends StatelessWidget {
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: blur, sigmaY: blur),
         child: Container(
+          height: height,
+          width: isCircle ? height : null,
           decoration: BoxDecoration(
-            color: Colors.white.withValues(alpha: 0.8),
+            color: Colors.white,
             borderRadius: BorderRadius.circular(isCircle ? 50 : borderRadius),
             border: Border.all(color: Colors.white.withValues(alpha: 0.35), width: 0.6),
             boxShadow: [
@@ -117,6 +124,7 @@ class _BottomFloatingIsland extends StatelessWidget {
               )
             ],
           ),
+          alignment: Alignment.center,
           child: child,
         ),
       ),
