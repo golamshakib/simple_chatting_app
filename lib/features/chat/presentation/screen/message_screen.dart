@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:simple_chatting_app/core/common/widgets/glassy_appbar.dart';
@@ -28,9 +29,9 @@ class MessageScreen extends StatelessWidget {
           // Chat Content
           Positioned.fill(
             child: ListView.builder(
-              padding: const EdgeInsets.only(
-                top: kToolbarHeight,
-                bottom: 110, // Space for bottom bar
+              padding: EdgeInsets.only(
+                top: MediaQuery.of(context).padding.top + 75, // Start below app bar pills
+                bottom: 120, // Enough space for bottom bar and final message
               ),
               itemCount: 12,
               itemBuilder: (context, index) {
@@ -61,6 +62,37 @@ class MessageScreen extends StatelessWidget {
                   isSender: isSender,
                 );
               },
+            ),
+          ),
+          // Glassy Blur Layer (Top)
+          Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            height: MediaQuery.of(context).padding.top + 50, // Covers app bar area
+            child: ClipRect(
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
+                child: Container(
+                  color: Colors.white.withOpacity(0.12),
+                ),
+              ),
+            ),
+          ),
+
+          // Glassy Blur Layer (Bottom)
+          Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            height: 75, // Covers bottom bar area
+            child: ClipRect(
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
+                child: Container(
+                  color: Colors.white.withOpacity(0.12),
+                ),
+              ),
             ),
           ),
 
