@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:simple_chatting_app/core/common/widgets/custom_text.dart';
 
 class ChatBubble extends StatelessWidget {
   final String message;
@@ -43,13 +44,11 @@ class ChatBubble extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.only(bottom: 14), // Space for time
-              child: Text(
-                message,
-                style: const TextStyle(
+              child: CustomText(
+                text: message,
                   fontSize: 16,
-                  color: Colors.black87,
-                  height: 1.3,
-                ),
+                  textColor: Colors.black,
+
               ),
             ),
             Positioned(
@@ -58,12 +57,11 @@ class ChatBubble extends StatelessWidget {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(
-                    time,
-                    style: TextStyle(
+                  CustomText(
+                    text: time,
+
                       fontSize: 11,
-                      color: isSender ? Colors.black45 : Colors.grey[500],
-                    ),
+                      textColor: isSender ? Colors.black45 : Colors.grey[500],
                   ),
                   if (isSender) ...[
                     const SizedBox(width: 4),
