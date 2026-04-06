@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:simple_chatting_app/core/common/widgets/custom_text.dart';
 import 'package:simple_chatting_app/core/common/widgets/glassy_appbar.dart';
 import 'package:simple_chatting_app/features/chat/controler/message_controller.dart';
 import 'package:simple_chatting_app/features/chat/presentation/widgets/chat_bubble.dart';
@@ -15,9 +16,11 @@ class MessageScreen extends StatelessWidget {
     // Inject Controller
     final controller = Get.put(MessageController());
     final participants = controller.conversation.participants;
-    
+
     log('Data is: ${controller.conversation.toJson()}');
-    log('Participants Data is: ${controller.conversation.participants?.toJson()}');
+    log(
+      'Participants Data is: ${controller.conversation.participants?.toJson()}',
+    );
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -25,29 +28,34 @@ class MessageScreen extends StatelessWidget {
       backgroundColor: Color(0xFFDEE9D2),
       body: Stack(
         children: [
-
           // Chat Content
           Positioned.fill(
             child: ListView.builder(
               padding: EdgeInsets.only(
-                top: MediaQuery.of(context).padding.top + 75, // Start below app bar pills
+                top:
+                    MediaQuery.of(context).padding.top +
+                    75, // Start below app bar pills
                 bottom: 120, // Enough space for bottom bar and final message
               ),
               itemCount: 12,
               itemBuilder: (context, index) {
                 // Dates as in screenshot
                 if (index == 6) {
-                   return Center(
+                  return Center(
                     child: Container(
                       margin: const EdgeInsets.symmetric(vertical: 16),
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 4,
+                      ),
                       decoration: BoxDecoration(
                         color: Colors.black.withValues(alpha: 0.2),
                         borderRadius: BorderRadius.circular(20),
                       ),
-                      child: const Text(
-                        "April 4",
-                        style: TextStyle(color: Colors.white, fontSize: 13),
+                      child: const CustomText(
+                        text: "April 4",
+                        textColor: Colors.white,
+                        fontSize: 13,
                       ),
                     ),
                   );
@@ -55,16 +63,16 @@ class MessageScreen extends StatelessWidget {
 
                 bool isSender = index % 2 != 0;
                 return ChatBubble(
-                  message: isSender 
-                    ? "Stateless refactor complete! All components are now isolated floating islands." 
-                    : "This matter has been ongoing for more than 3 months, and the delay is primarily due to the lack of access from the client's side.",
+                  message: isSender
+                      ? "Stateless refactor complete! All components are now isolated floating islands."
+                      : "This matter has been ongoing for more than 3 months, and the delay is primarily due to the lack of access from the client's side.",
                   time: "12:49 PM",
                   isSender: isSender,
                 );
               },
             ),
           ),
-          // Glassy Blur Layer (Top)
+          // Glassy Blur Layer (Top) with smooth fade
           Positioned(
             top: 0,
             left: 0,
@@ -80,7 +88,7 @@ class MessageScreen extends StatelessWidget {
             ),
           ),
 
-          // Glassy Blur Layer (Bottom)
+          // Glassy Blur Layer (Bottom) with smooth fade
           Positioned(
             bottom: 0,
             left: 0,
@@ -104,8 +112,10 @@ class MessageScreen extends StatelessWidget {
             child: GlassyAppBar(
               title: participants?.username ?? 'Unknown User)',
               subtitle: 'last seen 37 minutes ago',
-              badgeCount: 50,
-              profileImageUrl: (participants?.image != null && participants!.image!.isNotEmpty)
+              badgeCount: 20,
+              profileImageUrl:
+                  (participants?.image != null &&
+                      participants!.image!.isNotEmpty)
                   ? participants.image
                   : 'https://i.pravatar.cc/150?u=a042581f4e29026704d',
             ),
