@@ -7,6 +7,7 @@ import 'package:simple_chatting_app/core/common/widgets/glassy_appbar.dart';
 import 'package:simple_chatting_app/features/chat/controler/message_controller.dart';
 import 'package:simple_chatting_app/features/chat/presentation/widgets/chat_bubble.dart';
 import 'package:simple_chatting_app/features/chat/presentation/widgets/glassy_bottom_bar.dart';
+import 'package:simple_chatting_app/routes/app_routes.dart';
 
 class MessageScreen extends StatelessWidget {
   const MessageScreen({super.key});
@@ -133,6 +134,7 @@ class MessageScreen extends StatelessWidget {
               },
               onMicTap: () {
                 // Implementation for voice recording
+                Get.toNamed(AppRoute.shapeScreen);
               },
             ),
           ),
