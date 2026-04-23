@@ -3,12 +3,14 @@ import 'package:simple_chatting_app/features/login/presentation/screen/login_scr
 import '../features/chat/presentation/screen/chatting_list.dart';
 import '../features/chat/presentation/screen/message_screen.dart';
 import '../features/splash_screen/presentation/screens/splash_screen.dart';
+import '../features/z_test_widget/shape_screen.dart';
 
 class AppRoute {
   static String init = "/";
   static String loginScreen = "/loginScreen";
   static String chattingListScreen = "/chattingListScreen";
   static String messageScreen = "/messageScreen";
+  static String shapeScreen = "/shapeScreen";
 
 
 
@@ -17,5 +19,6 @@ class AppRoute {
     GetPage(name: loginScreen, page: () => const LoginScreen()),
     GetPage(name: chattingListScreen, page: () => const ChattingListScreen()),
     GetPage(name: messageScreen, page: () => MessageScreen()),
+    GetPage(name: shapeScreen, page: () => ShapeScreen()),
   ];
 }
